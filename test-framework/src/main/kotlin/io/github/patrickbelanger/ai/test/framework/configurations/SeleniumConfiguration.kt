@@ -1,9 +1,21 @@
 package io.github.patrickbelanger.ai.test.framework.configurations
 
-import io.github.patrickbelanger.ai.test.framework.types.WebDrivers
+import io.github.patrickbelanger.ai.test.framework.types.Browser
 import org.springframework.boot.context.properties.ConfigurationProperties
 
 @ConfigurationProperties(prefix = "selenium")
 class SeleniumConfiguration {
-    lateinit var webDriver: WebDrivers
+    lateinit var grid: SeleniumGridConfiguration
+    lateinit var browser: Browser
+    lateinit var browserOptions: SeleniumBrowserOptions
+}
+
+class SeleniumGridConfiguration {
+    var enabled: Boolean = false
+    var host: String = "http://localhost:4441"
+}
+
+class SeleniumBrowserOptions {
+    var acceptInsecureCerts: Boolean = false
+    var startMaximized: Boolean = true
 }

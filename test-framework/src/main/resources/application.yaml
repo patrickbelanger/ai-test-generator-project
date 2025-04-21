@@ -1,2 +1,8 @@
 selenium:
-  webDriver: CHROME
+  grid:
+    enabled: true
+    host: http://localhost:4444
+  browser: CHROME
+  browserOptions:
+    acceptInsecureCerts: false
+    startMaximized: true
