@@ -1,2 +1,2 @@
 selenium:
-  webdriver: CHROME
+  webDriver: CHROME
