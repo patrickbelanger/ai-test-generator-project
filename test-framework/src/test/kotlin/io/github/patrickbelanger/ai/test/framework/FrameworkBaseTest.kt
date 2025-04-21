@@ -20,4 +20,10 @@ class FrameworkBaseTest: FrameworkBase() {
         webdriver.findElement(By.id("login-button")).click()
         println("Page Title: ${webdriver.title}")
     }
+
+    @Test
+    fun shouldLoginFailsDueToWrongElementId() {
+        webdriver.get("https://www.saucedemo.com/")
+        webdriver.findElement(By.id("user1name")).sendKeys("standard_user")
+    }
 }

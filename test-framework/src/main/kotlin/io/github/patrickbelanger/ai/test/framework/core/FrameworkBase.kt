@@ -1,5 +1,7 @@
 package io.github.patrickbelanger.ai.test.framework.core
 
+import io.github.patrickbelanger.ai.test.framework.extensions.SeleniumJunitExtension
+import io.github.patrickbelanger.ai.test.framework.handlers.ScreenshotOnFailureHandler
 import io.github.patrickbelanger.ai.test.framework.watchers.TestResultWatcher
 import io.github.patrickbelanger.ai.test.framework.webdrivers.WebDriverFactory
 import org.junit.jupiter.api.*
@@ -11,7 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 
 @Component
-@ExtendWith(TestResultWatcher::class)
+@ExtendWith(SeleniumJunitExtension::class, ScreenshotOnFailureHandler::class, TestResultWatcher::class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation::class)
 abstract class FrameworkBase {
@@ -27,6 +29,7 @@ abstract class FrameworkBase {
     @BeforeEach
     fun setUp(testInfo: TestInfo) {
         logger.info("🚀 Prepare to launch test: ${testInfo.displayName}")
+        webDriverFactory.getWebDriver()
     }
 
     @AfterEach

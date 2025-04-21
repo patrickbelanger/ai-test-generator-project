@@ -27,15 +27,10 @@ class WebDriverFactory(
 
     val logger : Logger = LoggerFactory.getLogger(WebDriverFactory::class.java)
 
-    private val targetWebDriver: ThreadLocal<WebDriver> = ThreadLocal()
-
     @Bean
     @Scope("prototype")
     fun getWebDriver(): WebDriver {
         logger.info("✨ Instantiate WebDriver: ${seleniumConfiguration.browser}")
-        if (targetWebDriver.get() !== null) {
-            return targetWebDriver.get()
-        }
 
         val driver = if (seleniumConfiguration.grid.enabled) {
             val options = when (seleniumConfiguration.browser) {
@@ -62,16 +57,13 @@ class WebDriverFactory(
             }
         }
 
-        targetWebDriver.set(driver)
-        return targetWebDriver.get()
+        WebDriverContext.set(driver)
+        return WebDriverContext.get()
     }
 
     fun quitWebDriver() {
-        targetWebDriver.get()?.let {
-            logger.info("🏁 Quitting WebDriver for thread: ${Thread.currentThread().name}")
-            it.quit()
-            targetWebDriver.remove()
-        }
+        logger.info("🏁 Quitting WebDriver for thread: ${Thread.currentThread().name}")
+        WebDriverContext.clear()
     }
 
     @PreDestroy
