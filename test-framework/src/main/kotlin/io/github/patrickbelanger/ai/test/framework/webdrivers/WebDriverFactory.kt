@@ -1,7 +1,7 @@
 package io.github.patrickbelanger.ai.test.framework.webdrivers
 
 import io.github.patrickbelanger.ai.test.framework.configurations.SeleniumConfiguration
-import io.github.patrickbelanger.ai.test.framework.types.Browser
+import io.github.patrickbelanger.ai.test.framework.types.SupportedBrowser
 import io.github.patrickbelanger.ai.test.framework.webdrivers.options.ChromeOptionsConfig
 import io.github.patrickbelanger.ai.test.framework.webdrivers.options.EdgeOptionsConfig
 import io.github.patrickbelanger.ai.test.framework.webdrivers.options.FirefoxOptionsConfig
@@ -33,21 +33,25 @@ class WebDriverFactory(
 
         return if (seleniumConfiguration.grid.enabled) {
             val options = when (seleniumConfiguration.browser) {
-                Browser.CHROME -> chromeOptions.create()
-                Browser.FIREFOX -> firefoxOptions.create()
-                Browser.EDGE -> edgeOptions.create()
+                SupportedBrowser.CHROME -> chromeOptions.create()
+                SupportedBrowser.FIREFOX -> firefoxOptions.create()
+                SupportedBrowser.EDGE -> edgeOptions.create()
             }
             logger.info("ℹ️ Using remote WebDriver at ${seleniumConfiguration.grid.host}")
-            RemoteWebDriver.builder()
+            val webdriver = RemoteWebDriver.builder()
                 .addAlternative(options)
                 .address(seleniumConfiguration.grid.host)
                 .build()
+            if (webdriver is FirefoxDriver) { // TODO: This logic is duplicated and can be simplified
+                webdriver.manage().window().maximize()
+            }
+            webdriver
         } else {
             logger.info("ℹ️ Using local WebDriver at ${seleniumConfiguration.browser}")
             when (seleniumConfiguration.browser) {
-                Browser.CHROME -> ChromeDriver(chromeOptions.create())
-                Browser.EDGE -> EdgeDriver(edgeOptions.create())
-                Browser.FIREFOX -> {
+                SupportedBrowser.CHROME -> ChromeDriver(chromeOptions.create())
+                SupportedBrowser.EDGE -> EdgeDriver(edgeOptions.create())
+                SupportedBrowser.FIREFOX -> {
                     val webdriver = FirefoxDriver(firefoxOptions.create())
                     if (seleniumConfiguration.browserOptions.startMaximized) {
                         webdriver.manage().window().maximize()

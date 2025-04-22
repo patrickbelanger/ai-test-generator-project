@@ -6,12 +6,8 @@ import io.github.patrickbelanger.ai.test.framework.webdrivers.WebDriverContext
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.TestInstance
 import org.openqa.selenium.By
-import org.springframework.boot.test.context.SpringBootTest
 
-@SpringBootTest
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class FrameworkBaseTest: FrameworkBase() {
 
     @Test
@@ -21,7 +17,7 @@ class FrameworkBaseTest: FrameworkBase() {
             find(By.id("user-name")).sendKeys("standard_user")
             find(By.id("password")).sendKeys("secret_sauce")
             find(By.id("login-button")).click()
-            assertEquals("Sauce Labs Swag Labs app", title)
+            assertEquals("Swag Labs", title)
         }
     }
 

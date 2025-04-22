@@ -10,12 +10,17 @@ import org.junit.jupiter.api.parallel.Execution
 import org.junit.jupiter.api.parallel.ExecutionMode
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import org.springframework.stereotype.Component
+import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.junit.jupiter.SpringExtension
 
-@Component
 @Execution(ExecutionMode.CONCURRENT)
-@ExtendWith(SpringExtension::class, SeleniumJunitExtension::class, ScreenshotOnFailureHandler::class, TestResultWatcher::class)
+@ExtendWith(
+    SpringExtension::class,
+    SeleniumJunitExtension::class,
+    ScreenshotOnFailureHandler::class,
+    TestResultWatcher::class
+)
+@SpringBootTest
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation::class)
 abstract class FrameworkBase {
