@@ -5,7 +5,6 @@ import io.github.patrickbelanger.ai.test.framework.types.Browser
 import io.github.patrickbelanger.ai.test.framework.webdrivers.options.ChromeOptionsConfig
 import io.github.patrickbelanger.ai.test.framework.webdrivers.options.EdgeOptionsConfig
 import io.github.patrickbelanger.ai.test.framework.webdrivers.options.FirefoxOptionsConfig
-import jakarta.annotation.PreDestroy
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.chrome.ChromeDriver
 import org.openqa.selenium.edge.EdgeDriver
@@ -32,7 +31,7 @@ class WebDriverFactory(
     fun getWebDriver(): WebDriver {
         logger.info("✨ Instantiate WebDriver: ${seleniumConfiguration.browser}")
 
-        val driver = if (seleniumConfiguration.grid.enabled) {
+        return if (seleniumConfiguration.grid.enabled) {
             val options = when (seleniumConfiguration.browser) {
                 Browser.CHROME -> chromeOptions.create()
                 Browser.FIREFOX -> firefoxOptions.create()
@@ -44,6 +43,7 @@ class WebDriverFactory(
                 .address(seleniumConfiguration.grid.host)
                 .build()
         } else {
+            logger.info("ℹ️ Using local WebDriver at ${seleniumConfiguration.browser}")
             when (seleniumConfiguration.browser) {
                 Browser.CHROME -> ChromeDriver(chromeOptions.create())
                 Browser.EDGE -> EdgeDriver(edgeOptions.create())
@@ -56,19 +56,5 @@ class WebDriverFactory(
                 }
             }
         }
-
-        WebDriverContext.set(driver)
-        return WebDriverContext.get()
-    }
-
-    fun quitWebDriver() {
-        logger.info("🏁 Quitting WebDriver for thread: ${Thread.currentThread().name}")
-        WebDriverContext.clear()
-    }
-
-    @PreDestroy
-    fun shutdown() {
-        logger.info("🚪 Application context is shutting down.")
-        quitWebDriver()
     }
 }

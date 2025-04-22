@@ -21,7 +21,7 @@ class ScreenshotOnFailureHandler : TestExecutionExceptionHandler {
             val webdriver = WebDriverContext.get()
             if (webdriver is TakesScreenshot) {
                 val timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss"))
-                val filename = "screenshots/${context.displayName.replace("[^a-zA-Z0-9]".toRegex(), "_")}_$timestamp.png"
+                val filename = "reports/screenshots/${context.displayName.replace("[^a-zA-Z0-9]".toRegex(), "_")}/$timestamp.png"
                 val screenshot = webdriver.getScreenshotAs(OutputType.FILE)
                 File(filename).apply {
                     parentFile.mkdirs()

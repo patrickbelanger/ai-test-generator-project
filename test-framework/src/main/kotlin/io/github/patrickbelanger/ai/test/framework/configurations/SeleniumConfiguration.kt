@@ -17,5 +17,9 @@ class SeleniumGridConfiguration {
 
 class SeleniumBrowserOptions {
     var acceptInsecureCerts: Boolean = false
+    /* Chrome Browser */
+    var credentialsEnableService: Boolean = false
+    /* Chrome Browser */
+    var passwordManagerLeakDetection: Boolean = false
     var startMaximized: Boolean = true
 }

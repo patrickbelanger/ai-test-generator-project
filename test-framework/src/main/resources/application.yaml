@@ -5,4 +5,6 @@ selenium:
   browser: CHROME
   browserOptions:
     acceptInsecureCerts: false
+    credentialsEnableService: false
+    passwordManagerLeakDetection: false
     startMaximized: true
