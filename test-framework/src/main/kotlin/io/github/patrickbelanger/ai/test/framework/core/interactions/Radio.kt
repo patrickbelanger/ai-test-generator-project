@@ -2,9 +2,4 @@ package io.github.patrickbelanger.ai.test.framework.core.interactions
 
 import org.openqa.selenium.By
 
-class Button (by: By): AbstractElement(by) {
-
-    fun click() {
-        element.click()
-    }
-}
+class Radio(by: By): ElementsGrouped(by)

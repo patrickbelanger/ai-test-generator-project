@@ -1,28 +1,20 @@
 package io.github.patrickbelanger.ai.test.framework.demo.w3cschools
 
 import io.github.patrickbelanger.ai.test.framework.core.FrameworkBase
+import io.github.patrickbelanger.ai.test.framework.core.interactions.Dropdown
 import io.github.patrickbelanger.ai.test.framework.demo.w3cschools.pageobjects.TryItPage
 import io.github.patrickbelanger.ai.test.framework.dsl.page
 import org.junit.jupiter.api.Test
 import org.openqa.selenium.By
 
-class CheckboxesTest : FrameworkBase() {
+class DropdownTest : FrameworkBase() {
 
     @Test
-    fun shouldBeAbleToClickOnASpecificCheckbox() {
+    fun shouldBeAbleToSelectASpecificValue() {
         page<TryItPage> {
-            navigateTo()
+            navigateTo("tryhtml_select")
             switchFrame()
-            checkbox(By.xpath("//input[@type='checkbox']")).click("Car")
-        }
-    }
-
-    @Test
-    fun shouldBeAbleToClickOnAEveryCheckboxes() {
-        page<TryItPage> {
-            navigateTo()
-            switchFrame()
-            checkbox(By.xpath("//input[@type='checkbox']")).clickAll()
+            Dropdown(By.name("cars")).selectByText("Audi")
         }
     }
 }

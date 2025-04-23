@@ -8,7 +8,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions
 import org.openqa.selenium.support.ui.WebDriverWait
 import java.time.Duration
 
-abstract class Element(protected val by: By) {
+abstract class AbstractElement(protected val by: By) {
 
     protected val webdriver: WebDriver
         get() = WebDriverContext.get()
