@@ -4,6 +4,7 @@ import org.openqa.selenium.By
 
 abstract class Elements {
     fun button(by: By) = Button(by)
+    fun browser() = BrowserNavigation()
     fun input(by: By) = Input(by)
     fun checkbox(by: By) = Checkbox(by)
     fun dropdown(by: By) = Dropdown(by)

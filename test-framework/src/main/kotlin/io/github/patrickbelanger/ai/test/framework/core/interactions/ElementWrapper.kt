@@ -8,7 +8,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions
 import org.openqa.selenium.support.ui.WebDriverWait
 import java.time.Duration
 
-abstract class AbstractElement(protected val by: By) {
+abstract class ElementWrapper(protected val by: By) {
 
     protected val webdriver: WebDriver
         get() = WebDriverContext.get()
@@ -26,4 +26,12 @@ abstract class AbstractElement(protected val by: By) {
         get() {
             return wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(by))
         }
+
+    protected fun findElement(): WebElement =
+        WebDriverWait(webdriver, Duration.ofSeconds(10))
+            .until(ExpectedConditions.presenceOfElementLocated(by))
+
+    fun isDisplayed(): Boolean {
+        return findElement().isDisplayed
+    }
 }
