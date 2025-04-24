@@ -9,11 +9,11 @@ import org.openqa.selenium.By
 class RadioTest : FrameworkBase() {
 
     @Test
-    fun shouldBeAbleToClickOnASpecificCheckbox() {
+    fun shouldBeAbleToClickOnASpecificRadio() {
         page<TryItPage> {
             navigateTo("tryhtml5_input_type_radio")
             switchFrame()
-            radio(By.xpath("//input[@type='checkbox']")).click("Car")
+            radio(By.xpath("//input[@type='radio']")).click("CSS")
         }
     }
 }

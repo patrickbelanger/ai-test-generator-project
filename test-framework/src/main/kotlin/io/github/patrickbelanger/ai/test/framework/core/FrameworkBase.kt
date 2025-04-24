@@ -1,5 +1,6 @@
 package io.github.patrickbelanger.ai.test.framework.core
 
+import io.github.patrickbelanger.ai.test.framework.core.interactions.Elements
 import io.github.patrickbelanger.ai.test.framework.extensions.SeleniumJunitExtension
 import io.github.patrickbelanger.ai.test.framework.handlers.ScreenshotOnFailureHandler
 import io.github.patrickbelanger.ai.test.framework.watchers.TestResultWatcher
@@ -23,7 +24,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension
 @SpringBootTest
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation::class)
-abstract class FrameworkBase {
+abstract class FrameworkBase : Elements() {
 
     private val logger: Logger = LoggerFactory.getLogger(FrameworkBase::class.java)
 
