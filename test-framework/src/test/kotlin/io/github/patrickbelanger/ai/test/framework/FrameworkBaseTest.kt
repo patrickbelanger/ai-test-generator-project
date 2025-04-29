@@ -11,7 +11,7 @@ import org.openqa.selenium.By
 class FrameworkBaseTest: FrameworkBase() {
 
     @Test
-    fun shouldLoginSuccessfullyUsingPlainSeleniumWebDriverCombinedWithSpringBoot() {
+    fun `Should log successfully using plain Selenium WebDriver combined with Spring Boot`() {
         with(WebDriverContext.get()) {
             get("https://www.saucedemo.com/")
             find(By.id("user-name")).sendKeys("standard_user")
@@ -22,7 +22,7 @@ class FrameworkBaseTest: FrameworkBase() {
     }
 
     @Test
-    fun shouldLoginFailsDueToWrongElementId() {
+    fun `Should login fails due to wrong element id`() {
         with(WebDriverContext.get()) {
             get("https://www.saucedemo.com/")
             assertThrows(org.openqa.selenium.NoSuchElementException::class.java) {

@@ -9,7 +9,7 @@ import org.openqa.selenium.By
 class CheckboxesTest : FrameworkBase() {
 
     @Test
-    fun shouldBeAbleToClickOnASpecificCheckbox() {
+    fun `Should be able to click on a specific checkbox`() {
         page<TryItPage> {
             navigateTo()
             switchFrame()
@@ -18,7 +18,7 @@ class CheckboxesTest : FrameworkBase() {
     }
 
     @Test
-    fun shouldBeAbleToClickOnAEveryCheckboxes() {
+    fun `Should be able to click on a every checkboxes`() {
         page<TryItPage> {
             navigateTo()
             switchFrame()

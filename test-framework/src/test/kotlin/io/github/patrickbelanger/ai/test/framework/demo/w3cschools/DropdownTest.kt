@@ -9,7 +9,7 @@ import org.openqa.selenium.By
 class DropdownTest : FrameworkBase() {
 
     @Test
-    fun shouldBeAbleToSelectASpecificValue() {
+    fun `Should be able to select a specific value`() {
         page<TryItPage> {
             navigateTo("tryhtml_select")
             switchFrame()

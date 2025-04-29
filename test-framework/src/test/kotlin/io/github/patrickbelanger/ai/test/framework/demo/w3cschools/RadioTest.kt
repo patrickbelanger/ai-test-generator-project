@@ -9,7 +9,7 @@ import org.openqa.selenium.By
 class RadioTest : FrameworkBase() {
 
     @Test
-    fun shouldBeAbleToClickOnASpecificRadio() {
+    fun `Should be able to click on a specific radio`() {
         page<TryItPage> {
             navigateTo("tryhtml5_input_type_radio")
             switchFrame()

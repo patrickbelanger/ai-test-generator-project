@@ -1,50 +1,76 @@
 package io.github.patrickbelanger.ai.test.framework.core.interactions
 
-import io.github.patrickbelanger.ai.test.framework.webdrivers.WebDriverContext
+import org.openqa.selenium.By
 import org.openqa.selenium.Cookie
 import org.openqa.selenium.WebDriver
+import org.openqa.selenium.WebElement
+import org.openqa.selenium.support.ui.ExpectedConditions
 
-class BrowserNavigation {
-
-    private val webdriver: WebDriver
-        get() = WebDriverContext.get()
+class BrowserNavigation : WebInterfacesWrapper()  {
 
     fun cookies(): Cookies {
-        return Cookies(webdriver)
+        return Cookies(webDriver)
     }
 
     fun currentUrl(): String? {
-        return webdriver.currentUrl
+        return webDriver.currentUrl
+    }
+
+    fun frames(): Frames {
+        return Frames()
     }
 
     fun navigateTo(url: String) {
-        webdriver.get(url)
+        webDriver.get(url)
     }
 
     fun title(): String? {
-        return webdriver.title
+        return webDriver.title
     }
 
-    class Cookies(val webdriver: WebDriver) {
+    fun forceWait() {
+        wait.until(ExpectedConditions.titleIs(title()))
+    }
+
+    class Cookies(private val webDriver: WebDriver) {
 
         fun get(name: String) {
-            webdriver.manage().getCookieNamed(name)
+            webDriver.manage().getCookieNamed(name)
         }
 
         fun getAll(): MutableSet<Cookie> {
-            return webdriver.manage().cookies
+            return webDriver.manage().cookies
         }
 
         fun add(cookie: Cookie) {
-            webdriver.manage().addCookie(cookie)
+            webDriver.manage().addCookie(cookie)
         }
 
         fun delete(cookie: Cookie) {
-            webdriver.manage().deleteCookie(cookie)
+            webDriver.manage().deleteCookie(cookie)
         }
 
         fun deleteAll() {
-            webdriver.manage().deleteAllCookies()
+            webDriver.manage().deleteAllCookies()
+        }
+    }
+
+    open class Frames : WebInterfacesWrapper() {
+
+        fun switchTo(by: By) {
+            wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(by))
+        }
+
+        fun switchTo(index: Int) {
+            wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(index))
+        }
+
+        fun switchTo(nameOrId: String) {
+            wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(nameOrId))
+        }
+
+        fun switchTo(webElement: WebElement) {
+            wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(webElement))
         }
     }
 }

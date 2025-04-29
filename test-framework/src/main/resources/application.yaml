@@ -6,5 +6,8 @@ selenium:
   browserOptions:
     acceptInsecureCerts: false
     credentialsEnableService: false
+    pageLoadStrategy: EAGER
     passwordManagerLeakDetection: false
     startMaximized: true
+  capabilities:
+    usesBiDi: true

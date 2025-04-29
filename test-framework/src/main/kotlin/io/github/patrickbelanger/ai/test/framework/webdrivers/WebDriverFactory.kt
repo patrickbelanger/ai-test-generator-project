@@ -23,7 +23,6 @@ class WebDriverFactory(
     private val edgeOptions: EdgeOptionsConfig,
     private val firefoxOptions: FirefoxOptionsConfig
 ) {
-
     val logger : Logger = LoggerFactory.getLogger(WebDriverFactory::class.java)
 
     @Bean

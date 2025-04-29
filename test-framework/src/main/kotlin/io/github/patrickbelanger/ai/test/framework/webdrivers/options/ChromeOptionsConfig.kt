@@ -12,6 +12,7 @@ class ChromeOptionsConfig(config: SeleniumConfiguration)
         val options = ChromeOptions()
         configureAcceptInsecureCerts(options)
         configureExperimentalPreferences(options)
+        configurePageLoadStrategy(options)
         configureStartMaximized(options)
         return options
     }
@@ -22,6 +23,10 @@ class ChromeOptionsConfig(config: SeleniumConfiguration)
             "profile.password_manager_enabled" to config.browserOptions.passwordManagerLeakDetection
         )
         options.setExperimentalOption("prefs", prefs)
+    }
+
+    fun configurePageLoadStrategy(option: ChromeOptions) {
+        option.setPageLoadStrategy(config.browserOptions.pageLoadStrategy)
     }
 
     fun configureStartMaximized(options: ChromeOptions) {

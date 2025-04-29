@@ -4,22 +4,24 @@ import io.github.patrickbelanger.ai.test.framework.core.FrameworkBase
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
+import org.openqa.selenium.By
 import org.openqa.selenium.Cookie
 
 class BrowserNavigationTest : FrameworkBase() {
 
     val targetUrl = "https://www.google.com"
+    val targetUrlFrame = "https://www.w3schools.com/tags/tryit.asp?filename=tryhtml5_input_type_checkbox"
     val expectedTitle = "Google"
 
     @Test
-    fun shouldBeAbleToClickOnASpecificCheckbox() {
+    fun `Should be able to click on a specific checkbox`() {
         browser().navigateTo(targetUrl)
         browser().currentUrl()?.let { assertTrue(it.contains(targetUrl)) }
         browser().title()?.let { assertEquals(it, expectedTitle) }
     }
 
     @Test
-    fun shouldBeAbleToAddACookieOnADomainCookieIsValidFor() {
+    fun `Should be able to add a cookie on a domain cookie is valid for`() {
        val cookie = Cookie("new-cookie", expectedTitle)
        browser().navigateTo(targetUrl)
        browser().cookies().add(cookie)
@@ -28,20 +30,42 @@ class BrowserNavigationTest : FrameworkBase() {
     }
 
     @Test
-    fun shouldBeAbleToDeleteACookie() {
+    fun `Should be able to delete a cookie`() {
         val cookie = Cookie("working-cookie", expectedTitle)
         browser().navigateTo(targetUrl)
         browser().cookies().add(cookie)
 
         val cookiesCount = browser().cookies().getAll().size
+        browser().forceWait() // Slightly more elegant than Thread.sleep()
+
         browser().cookies().delete(cookie)
         assertEquals(cookiesCount - 1, browser().cookies().getAll().size)
     }
 
     @Test
-    fun shouldBeAbleToDeleteAllCookies() {
+    fun `Should be able to delete all cookies`() {
+        val cookie = Cookie("working-cookie", expectedTitle)
         browser().navigateTo(targetUrl)
+        browser().cookies().add(cookie)
+
+        browser().forceWait() // Slightly more elegant than Thread.sleep()
         browser().cookies().deleteAll()
+
+        browser().forceWait() // Slightly more elegant than Thread.sleep()
         assertEquals(0, browser().cookies().getAll().size)
+    }
+
+    @Test
+    fun `Should be able to switch frame by using By locator`() {
+        browser().navigateTo(targetUrlFrame)
+        browser().frames().switchTo(By.id("iframeResult"))
+        assertTrue(webDriver.findElements(By.xpath("//input[@type='checkbox']")).size == 3)
+    }
+
+    @Test
+    fun `Should be able to switch frame by using String locator`() {
+        browser().navigateTo(targetUrlFrame)
+        browser().frames().switchTo("iframeResult")
+        assertTrue(webDriver.findElements(By.xpath("//input[@type='checkbox']")).size == 3)
     }
 }

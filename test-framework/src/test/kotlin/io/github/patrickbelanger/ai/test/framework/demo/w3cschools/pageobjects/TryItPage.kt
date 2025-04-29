@@ -13,6 +13,6 @@ class TryItPage : PageObject<TryItPage>() {
     }
 
     fun switchFrame() {
-        webdriver.switchTo().frame("iframeResult") // To debug
+        browser().frames().switchTo("iframeResult")
     }
 }
