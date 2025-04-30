@@ -6,7 +6,6 @@ import org.openqa.selenium.support.ui.WebDriverWait
 import java.time.Duration
 
 abstract class WebInterfacesWrapper {
-
     open val webDriver: WebDriver
         get() = WebDriverContext.get()
 

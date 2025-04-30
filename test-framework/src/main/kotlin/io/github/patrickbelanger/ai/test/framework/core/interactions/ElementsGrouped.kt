@@ -3,7 +3,6 @@ package io.github.patrickbelanger.ai.test.framework.core.interactions
 import org.openqa.selenium.By
 
 abstract class ElementsGrouped(by: By): ElementWrapper(by) {
-
     fun click(value: String) {
         elements.first { e ->
             e.getAttribute("value")?.lowercase().equals(value.lowercase()) ||

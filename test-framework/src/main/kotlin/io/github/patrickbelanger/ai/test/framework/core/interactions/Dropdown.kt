@@ -4,7 +4,6 @@ import org.openqa.selenium.By
 import org.openqa.selenium.support.ui.Select
 
 class Dropdown(by: By) : ElementWrapper(by) {
-
     fun isEnabled(): Boolean {
         return findElement().isEnabled
     }

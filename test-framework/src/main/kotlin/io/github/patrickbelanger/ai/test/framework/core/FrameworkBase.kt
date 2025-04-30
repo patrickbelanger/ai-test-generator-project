@@ -25,7 +25,6 @@ import org.springframework.test.context.junit.jupiter.SpringExtension
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation::class)
 abstract class FrameworkBase : Elements() {
-
     private val logger: Logger = LoggerFactory.getLogger(FrameworkBase::class.java)
 
     @BeforeEach

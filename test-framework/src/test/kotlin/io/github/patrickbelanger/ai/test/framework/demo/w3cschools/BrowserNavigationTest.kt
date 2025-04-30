@@ -6,9 +6,9 @@ import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import org.openqa.selenium.By
 import org.openqa.selenium.Cookie
+import java.util.*
 
 class BrowserNavigationTest : FrameworkBase() {
-
     val targetUrl = "https://www.google.com"
     val targetUrlFrame = "https://www.w3schools.com/tags/tryit.asp?filename=tryhtml5_input_type_checkbox"
     val expectedTitle = "Google"
@@ -31,27 +31,27 @@ class BrowserNavigationTest : FrameworkBase() {
 
     @Test
     fun `Should be able to delete a cookie`() {
-        val cookie = Cookie("working-cookie", expectedTitle)
+        val cookie = Cookie("working-cookie-${UUID.randomUUID()}", expectedTitle)
         browser().navigateTo(targetUrl)
         browser().cookies().add(cookie)
 
         val cookiesCount = browser().cookies().getAll().size
-        browser().forceWait() // Slightly more elegant than Thread.sleep()
+        browser().cookies().waitForCookie(cookie)
 
         browser().cookies().delete(cookie)
+        browser().cookies().waitForDeletedCookie(cookie)
         assertEquals(cookiesCount - 1, browser().cookies().getAll().size)
     }
 
     @Test
     fun `Should be able to delete all cookies`() {
-        val cookie = Cookie("working-cookie", expectedTitle)
+        val cookie = Cookie("working-cookie-${UUID.randomUUID()}", expectedTitle)
         browser().navigateTo(targetUrl)
         browser().cookies().add(cookie)
+        browser().cookies().waitForCookie(cookie)
 
-        browser().forceWait() // Slightly more elegant than Thread.sleep()
         browser().cookies().deleteAll()
-
-        browser().forceWait() // Slightly more elegant than Thread.sleep()
+        browser().cookies().waitForNoCookies()
         assertEquals(0, browser().cookies().getAll().size)
     }
 
