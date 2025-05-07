@@ -64,15 +64,36 @@ class BrowserNavigation : WebInterfacesWrapper()  {
         }
 
         fun add(cookie: Cookie) {
-            webDriver.manage().addCookie(cookie)
+            runCatching {
+                webDriver.manage().addCookie(cookie)
+            }.onSuccess {
+                logger.info("✅ Add cookie - cookie {} - passed", cookie)
+            }.onFailure { error ->
+                logger.info("❌ Add cookie - cookies {} - failed {}", cookie, error.message)
+                throw error
+            }
         }
 
         fun delete(cookie: Cookie) {
-            webDriver.manage().deleteCookie(cookie)
+            runCatching {
+                webDriver.manage().deleteCookie(cookie)
+            }.onSuccess {
+                logger.info("✅ Delete cookie - cookie {} - passed", cookie)
+            }.onFailure { error ->
+                logger.info("❌ Delete cookie - cookies {} - failed {}", cookie, error.message)
+                throw error
+            }
         }
 
         fun deleteAll() {
-            webDriver.manage().deleteAllCookies()
+            runCatching {
+                webDriver.manage().deleteAllCookies()
+            }.onSuccess {
+                logger.info("✅ Delete all cookies - passed")
+            }.onFailure { error ->
+                logger.info("❌ Delete all cookies - failed {}", error.message)
+                throw error
+            }
         }
 
         fun waitForCookie(cookie: Cookie, timeout: Duration = Duration.ofSeconds(2)) {
@@ -81,9 +102,9 @@ class BrowserNavigation : WebInterfacesWrapper()  {
                     get(cookie) !== null
                 }
             }.onSuccess {
-                logger.info("✅ Wait completed")
+                logger.info("✅ Wait for cookie - cookie {} - passed", cookie.toString())
             }.onFailure { error ->
-                logger.info("❌ Wait failed — ${error.message}")
+                logger.info("❌ Wait for cookie - cookie {} failed — {}", cookie.toString(), error.message)
                 throw error
             }
         }
@@ -94,9 +115,9 @@ class BrowserNavigation : WebInterfacesWrapper()  {
                     get(name) !== null
                 }
             }.onSuccess {
-                logger.info("✅ Wait completed")
+                logger.info("✅ Wait for cookie - name {} - passed", name)
             }.onFailure { error ->
-                logger.info("❌ Wait failed — ${error.message}")
+                logger.info("❌ Wait for cookie - name {} failed — {}", name, error.message)
                 throw error
             }
         }
@@ -107,9 +128,9 @@ class BrowserNavigation : WebInterfacesWrapper()  {
                     get(cookie) == null
                 }
             }.onSuccess {
-                logger.info("✅ Wait completed")
+                logger.info("✅ Wait for cookie to be deleted - cookie {} - passed", cookie.toString())
             }.onFailure { error ->
-                logger.info("❌ Wait failed — ${error.message}")
+                logger.info("❌ Wait for cookie to be deleted - cookie {} failed — {}", cookie.toString(), error.message)
                 throw error
             }
         }
@@ -120,9 +141,9 @@ class BrowserNavigation : WebInterfacesWrapper()  {
                     get(name) == null
                 }
             }.onSuccess {
-                logger.info("✅ Wait completed")
+                logger.info("✅ Wait for cookie to be deleted - name {} - passed", name)
             }.onFailure { error ->
-                logger.info("❌ Wait failed — ${error.message}")
+                logger.info("❌ Wait for cookie to be deleted - name {} failed — {}", name, error.message)
                 throw error
             }
         }
@@ -133,9 +154,9 @@ class BrowserNavigation : WebInterfacesWrapper()  {
                     getAll().size == 0
                 }
             }.onSuccess {
-                logger.info("✅ Wait completed")
+                logger.info("✅ Wait for all cookies to be deleted - passed")
             }.onFailure { error ->
-                logger.info("❌ Wait failed — ${error.message}")
+                logger.info("❌ Wait for all cookies to be deleted - failed — {}", error.message)
                 throw error
             }
         }
@@ -145,19 +166,47 @@ class BrowserNavigation : WebInterfacesWrapper()  {
         private val logger: Logger = LoggerFactory.getLogger(Frames::class.java) // TODO: To extract
 
         fun switchTo(by: By) {
-            wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(by))
+            runCatching {
+                wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(by))
+            }.onSuccess {
+                logger.info("✅ Wait for all cookies to be deleted - passed")
+            }.onFailure { error ->
+                logger.info("❌ Wait for all cookies to be deleted - failed — {}", error.message)
+                throw error
+            }
         }
 
         fun switchTo(index: Int) {
-            wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(index))
+            runCatching {
+                wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(index))
+            }.onSuccess {
+                logger.info("✅ Switch frame - index {} - passed", index)
+            }.onFailure { error ->
+                logger.info("❌ Switch frame - index {} - failed — {}", index, error.message)
+                throw error
+            }
         }
 
         fun switchTo(nameOrId: String) {
-            wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(nameOrId))
+            runCatching {
+                wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(nameOrId))
+            }.onSuccess {
+                logger.info("✅ Switch frame - name/id {} - passed", nameOrId)
+            }.onFailure { error ->
+                logger.info("❌ Switch frame - name/id {} - failed — {}", nameOrId, error.message)
+                throw error
+            }
         }
 
         fun switchTo(webElement: WebElement) {
-            wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(webElement))
+            runCatching {
+                wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(webElement))
+            }.onSuccess {
+                logger.info("✅ Switch frame - webElement {} - passed", webElement.toString())
+            }.onFailure { error ->
+                logger.info("❌ Switch frame - webElement {} - failed — {}", webElement.toString(), error.message)
+                throw error
+            }
         }
     }
 }
